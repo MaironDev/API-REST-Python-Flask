@@ -18,9 +18,9 @@ def getProducts ():
     return jsonify(products)
 
 #buscamos un dato especifico 
-@app.route ('/products/<string:name>', methods=['GET'])
-def getProduct (name):
-    productfound = [product for product in products if product['name']==name]
+@app.route ('/products/<string:id>', methods=['GET'])
+def getProduct (id):
+    productfound = [product for product in products if product['id']==id]
     if (len(productfound)>0):
         return jsonify({"Producto": productfound[0]})
     
