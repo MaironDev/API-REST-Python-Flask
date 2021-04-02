@@ -9,7 +9,7 @@ cors=CORS(app)
 @app.route("/")
 @cross_origin()
 def helloWorld():
-  return "Hello, cross-origin-world!"
+  return "Hello,this is the main page!"
 
 
 #Entregamos los datos de la db metodo GET 
@@ -30,9 +30,11 @@ def getProduct (name):
 @app.route ('/add_products', methods=['POST'])
 def addProduct ():
     newproduct = {
+        "id": request.json['id'],
         "name": request.json ['name'],
         "price": request.json ['price'],
-        "quantity": request.json ['quantity']
+        "quantity": request.json ['quantity'],
+        "url": request.json ['url_image']
     }
     
     #guardar en la db
@@ -42,14 +44,16 @@ def addProduct ():
     return jsonify ({"Lista nueva": products})
 
 # Actualizar productos 
-@app.route ('/update_products/<string:name>', methods=['PUT'])
-def updateProduct(name):
+@app.route ('/update_products/<string:id>', methods=['PUT'])
+def updateProduct(id):
     
-    productFound = [product for product in products if product['name']==name]
+    productFound = [product for product in products if product['id']==id]
     if (len(productFound)>0):
+        productFound[0]['id'] = request.json ['id']
         productFound[0]['name'] = request.json ['name']
         productFound[0]['price'] = request.json ['price']
         productFound[0]['quantity'] = request.json ['quantity']
+        productFound[0]['url_image']= request.json ['url_image']
         
         return jsonify ({
             "message": "Product Update Succesfully",
@@ -59,9 +63,9 @@ def updateProduct(name):
  
  #Eliminar productos
  
-@app.route('/delete/<string:name>' , methods=['DELETE'])
-def deleteProduct(name):
-    productFound = [product for product in products if product ['name']==name]
+@app.route('/delete/<string:id>' , methods=['DELETE'])
+def deleteProduct(id):
+    productFound = [product for product in products if product ['id']==id]
     if (len(productFound)>0):
         products.remove(productFound[0])
         
