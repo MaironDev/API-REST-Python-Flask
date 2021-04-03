@@ -18,10 +18,10 @@ def getProducts ():
     return jsonify(products)
 
 #buscamos un dato especifico 
-@app.route ('/products/<string:id>', methods=['GET'])
+@app.route ('/products/<id>', methods=['GET'])
 def getProduct (id):
-    productfound = [product for product in products if product['id']==id]
-    if (len(productfound)>0):
+    productfound = [product for product in products if product['id'] == (id)]
+    if (len(productfound)> 0):
         return jsonify({"Producto": productfound[0]})
     
     return jsonify({"message": "Product not found"})
@@ -44,10 +44,10 @@ def addProduct ():
     return jsonify ({"Lista nueva": products})
 
 # Actualizar productos 
-@app.route ('/update_products/<string:id>', methods=['PUT'])
+@app.route ('/update_products/<id>', methods=['PUT'])
 def updateProduct(id):
     
-    productFound = [product for product in products if product['id']==id]
+    productFound = [product for product in products if product['id'] == id]
     if (len(productFound)>0):
         productFound[0]['id'] = request.json ['id']
         productFound[0]['name'] = request.json ['name']
@@ -63,7 +63,7 @@ def updateProduct(id):
  
  #Eliminar productos
  
-@app.route('/delete/<string:id>' , methods=['DELETE'])
+@app.route('/delete/<id>' , methods=['DELETE'])
 def deleteProduct(id):
     productFound = [product for product in products if product ['id']==id]
     if (len(productFound)>0):
